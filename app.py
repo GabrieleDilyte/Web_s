@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
+from flask import abort
 
 import os
 
@@ -18,6 +19,7 @@ def hello():
 @app.route('/visits/schedules', methods=['GET'])
 def get_all_info():
    return jsonify({'visits':visits})
+
 @app.route('/visits/schedules/<patAK>', methods=['DELETE'])
 def delete_pat(patAK):
     deleted_pat=[pat for pat in visits if (pat['AK'] == patAK)]
@@ -49,10 +51,10 @@ def updateVisits(switchAK):
 def getPatient(patieninf):
     pat = [ pak for pak in visits if (pak['AK'] == patieninf
             or pak['Name'] == patieninf or pak['Surname'] == patieninf
-            or pak ['Date'] == pateinf or pak['Time'] == patieninf)]
+            or pak ['Date'] == patieninf or pak['Time'] == patieninf)]
     if len(pat) == 0:
         abort(404)
-    return jsonify({'patient':pat})
+    return jsonify({'information':pat[0]})
 
 if __name__ == "__main__":
     app.run(debug = True, host="0.0.0.0")
